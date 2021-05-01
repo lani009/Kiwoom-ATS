@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "formatters": {
+    "simple": {
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    }
+  },
+
+  "handlers": {
+    "console": {
+      "class": "logging.StreamHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "stream": "ext://sys.stdout"
+    },
+
+    "info_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "simple",
+      "filename": "log_data/root.log",
+      "encoding": "utf-8",
+      "interval": 1
+    },
+
+    "ats_runner_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "simple",
+      "filename": "log_data/runner",
+      "encoding": "utf-8",
+      "interval": 1
+    },
+
+    "dao_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "simple",
+      "filename": "log_data/dao.log",
+      "encoding": "utf-8",
+      "interval": 1
+    }
+  },
+
+  "root": {
+    "level": "INFO",
+    "handlers": ["console", "info_file_handler"]
+  },
+  "loggers": {
+    "ats.AtsRunner": {
+      "level": "DEBUG",
+      "handlers": ["ats_runner_handler"],
+      "propagate": true
+    },
+    "ats.KiwoomDAO": {
+      "level": "DEBUG",
+      "handlers": ["dao_handler"],
+      "propagate": true
+    }
+  }
+}
