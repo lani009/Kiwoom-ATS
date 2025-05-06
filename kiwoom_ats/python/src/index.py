@@ -32,19 +32,17 @@ def is_after_market_close_time() -> bool:
 
 
 def wait_until_market_start():
-    QTest.qWait(
-        int((get_market_start_time() - datetime.datetime.now()).total_seconds() * 1000))
+    QTest.qWait(int((get_market_start_time() - datetime.datetime.now()).total_seconds() * 1000))
 
 
 def wait_until_market_close():
-    QTest.qWait(int((get_market_closeing_time() -
-                     datetime.datetime.now()).total_seconds() * 1000))
+    QTest.qWait(int((get_market_closeing_time() - datetime.datetime.now()).total_seconds() * 1000))
 
 
 def get_hms(a, b):
-    '''
+    """
     a > b
-    '''
+    """
     time_delta = a - b
     hour = int(time_delta.total_seconds() // 3600)
     minute = int((time_delta.total_seconds() // 60) % 60)
@@ -66,7 +64,7 @@ def index():
 
     stock_list = TradingDAO.instance().get_unfinished_trading_data()
 
-    if (is_after_market_close_time()):
+    if is_after_market_close_time():
         print("이미 장 종료되었습니다.")
         print("===== 내일 진행할 거래 =====")
 
@@ -94,11 +92,11 @@ def index():
     if is_after_market_close_time():
         sys.exit()
 
-    if (controller.runner_list.__len__() == 0):
+    if controller.runner_list.__len__() == 0:
         print("에러: 실행할 종목이 아무것도 없습니다!")
         sys.exit()
 
-    if (is_before_market_start_time()):
+    if is_before_market_start_time():
         hour, minute, second = get_hms(get_market_start_time(), datetime.datetime.now())
         print(f"\n장 시작 까지 {hour}시간 {minute}분 {second}초 남았습니다.")
         wait_until_market_start()
@@ -107,8 +105,7 @@ def index():
     print("\a")
     controller.run_all()
 
-    hour, minute, second = get_hms(
-        get_market_closeing_time(), datetime.datetime.now())
+    hour, minute, second = get_hms(get_market_closeing_time(), datetime.datetime.now())
     print(f"\n장 종료 까지 {hour}시간 {minute}분 {second}초 남았습니다.\n")
     wait_until_market_close()
 
@@ -118,7 +115,7 @@ def index():
 
     print("프로그램 종료")
 
-    if (ConfigParser.instance().load_is_power_off()):
+    if ConfigParser.instance().load_is_power_off():
         print("컴퓨터 종료합니다")
         os.system("shutdown /s /t 1")
     else:

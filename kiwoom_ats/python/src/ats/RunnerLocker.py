@@ -3,7 +3,7 @@ import threading
 from ats.ConfigParser import ConfigParser
 
 
-class RunnerLocker():
+class RunnerLocker:
     __semaphore: threading.Semaphore
 
     def __init__(self):
